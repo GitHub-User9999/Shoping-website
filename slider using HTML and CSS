@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Style for the slider container */
+        .slider-container {
+            width: 300px;
+            height: 10px;
+            background-color: #ccc;
+            position: relative;
+        }
+
+        /* Style for the slider button (thumb) */
+        .slider-button {
+            width: 20px;
+            height: 20px;
+            background-color: #007bff;
+            position: absolute;
+            top: -5px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="slider-container">
+        <div class="slider-button"></div>
+    </div>
+
+    <script>
+        // JavaScript to make the slider interactive
+        const sliderButton = document.querySelector(".slider-button");
+        let isDragging = false;
+
+        sliderButton.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            document.addEventListener("mousemove", updateSlider);
+            document.addEventListener("mouseup", stopDragging);
+        });
+
+        function updateSlider(e) {
+            if (isDragging) {
+                const sliderContainer = document.querySelector(".slider-container");
+                const rect = sliderContainer.getBoundingClientRect();
+                const left = e.clientX - rect.left;
+                const progress = (left / rect.width) * 100;
+                sliderButton.style.left = `${progress}%`;
+            }
+        }
+
+        function stopDragging() {
+            isDragging = false;
+            document.removeEventListener("mousemove", updateSlider);
+            document.removeEventListener("mouseup", stopDragging);
+        }
+    </script>
+</body>
+</html>
